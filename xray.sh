@@ -5,6 +5,12 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
+config_account=$1
+config_password=$2
+config_port=$3
+
+echo ${config_password}
+
 cur_dir=$(pwd)
 
 # check root
@@ -77,9 +83,8 @@ install_base() {
 
 # This function will be called when user installed x-ui out of sercurity
 config_after_install() {
-     config_account=$1
-     config_password=$2
-     config_port=$3
+echo ${config_password}
+
     echo -e "${yellow}Install/update finished! For security it's recommended to modify panel settings ${plain}"
   #  read -p "Do you want to continue with the modification [y/n]? ": config_confirm
     #if [[ "${config_confirm}" == "y" || "${config_confirm}" == "Y" ]]; then
@@ -129,7 +134,7 @@ install_x-ui() {
             exit 1
         fi
     else
-        last_version=$1
+        last_version="v1.7.9"
         url="https://github.com/MHSanaei/3x-ui/releases/download/v1.7.9/x-ui-linux-$(arch3xui).tar.gz"
         echo -e "Begining to install x-ui $1"
         wget -N --no-check-certificate -O /usr/local/x-ui-linux-$(arch3xui).tar.gz ${url}
@@ -152,7 +157,9 @@ install_x-ui() {
     wget --no-check-certificate -O /usr/bin/x-ui https://raw.githubusercontent.com/MHSanaei/3x-ui/main/x-ui.sh
     chmod +x /usr/local/x-ui/x-ui.sh
     chmod +x /usr/bin/x-ui
+
     config_after_install
+
     #echo -e "If it is a new installation, the default web port is ${green}2053${plain}, The username and password are ${green}admin${plain} by default"
     #echo -e "Please make sure that this port is not occupied by other procedures,${yellow} And make sure that port 2053 has been released${plain}"
     #    echo -e "If you want to modify the 2053 to other ports and enter the x-ui command to modify it, you must also ensure that the port you modify is also released"
